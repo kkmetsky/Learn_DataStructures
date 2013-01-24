@@ -159,16 +159,19 @@ int main ()
 	i=InitList(&L);
 	
 	printf("[init]L.length=%d\n",L.length);
+	
 	for (j=1; j<=5; j++) {
 		i=ListInsert(&L, 1, j);
 	}
 	printf("[insert]L.data=");
+	
 	ListTraverse(L);
 	
 	printf("L.length=%d\n",L.length);
 	
 	i=ListEmpt(&L);
 	printf("is L empty:%d\n",i);
+	printf("what is the length :%d\n",L.length);
 	
 	i=ClearList(&L);
 	printf("[clear]L.length=%d\n",L.length);
@@ -226,7 +229,11 @@ int main ()
     for(j=6;j<=15;j++)
 		i=ListInsert(&Lb,1,j);
 	
-    unionL(&L,Lb);
+    printf("輸出Lb的內容:");
+	ListTraverse(Lb);
+	
+	
+	unionL(&L,Lb);
     printf("依次輸出合併了Lb的L的元素：");
     ListTraverse(L);
     return 0;
