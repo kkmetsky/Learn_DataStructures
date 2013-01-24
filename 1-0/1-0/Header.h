@@ -9,7 +9,5 @@
 #ifndef __0_Header_h
 #define __0_Header_h
 
-void unuionL (List *La,List Lb);
-
 
 #endif
