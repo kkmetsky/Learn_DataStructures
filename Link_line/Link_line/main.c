@@ -97,13 +97,23 @@ Status ListLength (LinkList L)
 	return i;
 }
 
-Status ListDelete (LinkList *L,int i,ElemType e)
+Status ListDelete (LinkList *L,int i,ElemType *e)
 {
 	int j=1;
 	LinkList p=(*L),q;
-	while (!(p->next) || j>i) {
+	if (!(p->next) || j>i) {
 		return ERROR;
 	}
+	while (p->next && j<i) {
+		p=p->next;
+		++j;
+	}
+	
+	q=p->next;
+	p->next=q->next;
+	*e=q->data;
+	free(q);
+	return OK;
 }
 
 
@@ -119,9 +129,11 @@ int main(int argc, const char * argv[])
 		i=ListInsert(&L,1,j);
 	}
 	ListTraverse(L);
-	printf("%d",ListLength(L));
+	printf("%d\n",ListLength(L));
+	i=3;
+	ListDelete(&L, i,&e);
 	
-	ClearList(&L);
+//	ClearList(&L);
 	ListTraverse(L);
 
     return 0;
