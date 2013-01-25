@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <time.h>
 
 #define OK 1
 #define ERROR 0
@@ -115,14 +115,71 @@ Status ListDelete (LinkList *L,int i,ElemType *e)
 	free(q);
 	return OK;
 }
+Status GetElem (LinkList L,int i,ElemType *e	){
+	int j=1;
+	LinkList p=L->next;
+	if(!p || j>i)
+		return ERROR;
+	while (p && j<i) {
+		p=p->next;
+		j++;
+	}
+	*e = p->data;
+	return OK;
+};
 
+Status LocateElem (LinkList L, ElemType e)
+{
+	int i=0;
+	LinkList p=L->next;
+	while (p) {
+		i++;
+		if(p->data==e)
+			return i;
+		p=p->next;
+	}
+	return 0;
+}
+
+void CreatListTail(LinkList *L, int n)
+{
+	LinkList p,r;
+	int i;
+	srand((unsigned)time(NULL));
+	*L=(LinkList)malloc(sizeof(Node));
+	r=(*L);
+	
+	for (i=0; i<n; i++) {
+		p= (Node *)malloc(sizeof(Node));
+		p->data = rand()%100/+1;
+		r->next=p;
+		r=p;
+	}
+	r->next=NULL;
+	
+}
+
+void CreatListHead (LinkList *L,int n)
+{
+	LinkList p;
+	int i;
+	srand((unsigned)time(NULL));
+	*L=(LinkList)malloc(sizeof(Node));
+	(*L)->next=NULL;
+	for (i=0; i<n; i++) {
+		p=	(LinkList)malloc(sizeof(Node));
+		p->data =rand()%10+1;
+		p->next=(*L)->next;
+		(*L)->next=p;
+	}
+}
 
 int main(int argc, const char * argv[])
 {
 	LinkList L;
 	ElemType e;
 	Status i;
-	int j,k;
+	int j;
 	
 	i=InitList(&L);
 	for (j=0; j<=5; j++) {
@@ -130,12 +187,23 @@ int main(int argc, const char * argv[])
 	}
 	ListTraverse(L);
 	printf("%d\n",ListLength(L));
-	i=3;
+	i=4;
 	ListDelete(&L, i,&e);
+	printf("remove the %d value:%d\n",i,e);
+	
+	GetElem(L,4,&e);
+	printf("five elem:%d\n",e);
+	
+	i=LocateElem(L,1);
+	printf("it's locate at:%d\n",i);
 	
 //	ClearList(&L);
 	ListTraverse(L);
-
+	
+//	CreatListTail(&L,6);
+	CreatListHead(&L,8);
+	ListTraverse(L);
+	
     return 0;
 }
 
